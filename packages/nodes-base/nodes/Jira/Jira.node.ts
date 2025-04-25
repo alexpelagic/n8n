@@ -10,7 +10,7 @@ import type {
 	INodeType,
 	INodeTypeDescription,
 } from 'n8n-workflow';
-import { BINARY_ENCODING, NodeConnectionType, NodeOperationError } from 'n8n-workflow';
+import { BINARY_ENCODING, NodeConnectionTypes, NodeOperationError } from 'n8n-workflow';
 import type { Readable } from 'stream';
 
 import {
@@ -45,8 +45,8 @@ export class Jira implements INodeType {
 		defaults: {
 			name: 'Jira Software',
 		},
-		inputs: [NodeConnectionType.Main],
-		outputs: [NodeConnectionType.Main],
+		inputs: [NodeConnectionTypes.Main],
+		outputs: [NodeConnectionTypes.Main],
 		usableAsTool: true,
 		credentials: [
 			{
@@ -566,7 +566,7 @@ export class Jira implements INodeType {
 						this,
 						'/api/2/issuetype',
 						'GET',
-						body,
+						{},
 						qs,
 					);
 					const subtaskIssues = [];
@@ -690,7 +690,6 @@ export class Jira implements INodeType {
 						this,
 						'/api/2/issuetype',
 						'GET',
-						body,
 					);
 					const subtaskIssues = [];
 					for (const issueType of issueTypes) {
@@ -1298,7 +1297,6 @@ export class Jira implements INodeType {
 					const issueKey = this.getNodeParameter('issueKey', i) as string;
 					const returnAll = this.getNodeParameter('returnAll', i);
 					const options = this.getNodeParameter('options', i);
-					const body: IDataObject = {};
 					Object.assign(qs, options);
 					if (returnAll) {
 						responseData = await jiraSoftwareCloudApiRequestAllItems.call(
@@ -1306,7 +1304,7 @@ export class Jira implements INodeType {
 							'comments',
 							`/api/${apiVersion}/issue/${issueKey}/comment`,
 							'GET',
-							body,
+							{},
 							qs,
 						);
 					} else {
@@ -1316,7 +1314,7 @@ export class Jira implements INodeType {
 							this,
 							`/api/${apiVersion}/issue/${issueKey}/comment`,
 							'GET',
-							body,
+							{},
 							qs,
 						);
 						responseData = responseData.comments;

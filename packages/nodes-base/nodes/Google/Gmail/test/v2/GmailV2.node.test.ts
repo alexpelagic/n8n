@@ -5,9 +5,9 @@ import nock from 'nock';
 
 import { testWorkflows } from '@test/nodes/Helpers';
 
-import labels from './fixtures/labels.json';
-import messages from './fixtures/messages.json';
 import { getGmailAliases, getLabels, getThreadMessages } from '../../v2/loadOptions';
+import labels from '../fixtures/labels.json';
+import messages from '../fixtures/messages.json';
 
 describe('Test Gmail Node v2', () => {
 	beforeAll(() => {
@@ -129,11 +129,9 @@ describe('Test Gmail Node v2', () => {
 				.reply(200, messages[0]);
 		});
 
-		testWorkflows(['nodes/Google/Gmail/test/v2/messages.workflow.json']);
+		afterAll(() => gmailNock.done());
 
-		it('should make the correct network calls', () => {
-			gmailNock.done();
-		});
+		testWorkflows(['nodes/Google/Gmail/test/v2/messages.workflow.json']);
 	});
 
 	describe('Labels', () => {
@@ -154,11 +152,9 @@ describe('Test Gmail Node v2', () => {
 			});
 		});
 
-		testWorkflows(['nodes/Google/Gmail/test/v2/labels.workflow.json']);
+		afterAll(() => gmailNock.done());
 
-		it('should make the correct network calls', () => {
-			gmailNock.done();
-		});
+		testWorkflows(['nodes/Google/Gmail/test/v2/labels.workflow.json']);
 	});
 
 	describe('Drafts', () => {
@@ -244,11 +240,9 @@ describe('Test Gmail Node v2', () => {
 				});
 		});
 
-		testWorkflows(['nodes/Google/Gmail/test/v2/drafts.workflow.json']);
+		afterAll(() => gmailNock.done());
 
-		it('should make the correct network calls', () => {
-			gmailNock.done();
-		});
+		testWorkflows(['nodes/Google/Gmail/test/v2/drafts.workflow.json']);
 	});
 
 	describe('Threads', () => {
@@ -307,11 +301,9 @@ describe('Test Gmail Node v2', () => {
 				.reply(200, messages[0]);
 		});
 
-		testWorkflows(['nodes/Google/Gmail/test/v2/threads.workflow.json']);
+		afterAll(() => gmailNock.done());
 
-		it('should make the correct network calls', () => {
-			gmailNock.done();
-		});
+		testWorkflows(['nodes/Google/Gmail/test/v2/threads.workflow.json']);
 	});
 
 	describe('loadOptions', () => {
